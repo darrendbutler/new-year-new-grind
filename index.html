@@ -4,13 +4,10 @@
 	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.css" />
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Roboto:300,400,700&display=swap"
 		rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
-
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="index.js"> </script>
-  <script src="map.js"> </script>
-  
   
 
 </head>
@@ -80,7 +77,7 @@
 		<section id="firebaseui-auth-container"></section>
 
 		<section id="description-container">
-			<h2>Welcome!</h2>
+			<h2><strong>Welcome <span id="welcome-username"></span>!</strong> <span id="country"></span></h2>
 			<p>Grind hard to acheive your goals.</p>
 
 			<p> <strong>"I will be sucessful in 2021!"</strong></p>
@@ -90,56 +87,54 @@
 		</section>
 
 		<!--Hide from non logged in users-->
-		<section id="guestbook-container" class="flex-container">
+		<section id="guestbook-container">
+			<section id="resolutions" class="flex-container">
 
-			<div id="global-resolutions">
-				<h2>Global Resolutions</h2>
+				<div id="global-resolutions">
+					<h2>Global Resolutions</h2>
 
-				
-				<section id="guestbook"></section>
-			</div>
 
-			<div id="my-resolutions">
-				<h2>My Resolutions</h2>
-        <form id="leave-message">
-					<label>Add resolution: </label>
-					<input type="text" id="message">
-					<br>
-					<input type="range" name="rangeInput" id="slidein" min="0" max="2" onchange="updateTextInput(this.value);" value="0">
-					<br>
-					<label for="rangetext" id="textInput" > Not Started</label>
-					<br>
-					<button type="submit">
+					<section id="guestbook"></section>
+				</div>
+
+				<div id="my-resolutions">
+					<h2>My Resolutions</h2>
+					<form id="leave-message">
+						<label>Add resolution: </label>
+						<input type="text" id="message">
+						<br>
+						<input type="range" name="rangeInput" id="slidein" min="0" max="2" onchange="updateTextInput(this.value);" value="0">
+						<br>
+						<label for="rangetext" id="textInput" > Not Started</label>
+						<br>
+						<button type="submit">
             <i class="material-icons">send</i>
             <span>Send</span>
             </button>
-				</form>
-				<section id="mybook"></section>
-			</div>			
+					</form>
+					<section id="mybook"></section>
+				</div>
+			</section>
+      <hr>
 
+			<div id="resolution-map-area">
+				<h2><a href ="https://www.google.com/maps/d/u/0/edit?mid=1EOxa5psLRsICKTo77fGqu1OI6MweHg_d&usp=sharing">
+        Add your resolutions to the map!</a></h2>
+				<iframe id="map" src="https://www.google.com/maps/d/u/0/embed?mid=1EOxa5psLRsICKTo77fGqu1OI6MweHg_d" width="640"
+					height="480"></iframe>
+			</div>
 		</section>
-
-    <h2> Not API Map</h2>
-    <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1EOxa5psLRsICKTo77fGqu1OI6MweHg_d" width="640"	height="480">
-    </iframe>
+		<!--End of gustbook (logged in user area)-->
 
 
-    <!--
+
+		<!--
     <div class="column">
       <h2> My Favorite Resolutions </h2>
       <section id="favbook"></section>
     </div>
-    -->	
-
-    <h2>Google Map API Test Below</h2>
-    
-    
-    
-		
-    
-
-
-  
+    -->
+	</div> <!-- End of app div-->
 
 
 	<script>
@@ -155,11 +150,11 @@
         document.getElementById('textInput').innerHTML= "Completed"; 
     }
 	</script>
-  
-  <!--Radar.io geoIP API-->
-  <script src="https://js.radar.io/v3/radar.min.js"></script>
-  <script type="text/javascript">
-      //Initialize api 
+
+	<!--Radar.io geoIP API-->
+	<script src="https://js.radar.io/v3/radar.min.js"></script>
+	<script type="text/javascript">
+		//Initialize api 
       Radar.initialize("prj_test_pk_cdfea4e3dcff90ddffde679b1e74769eb04aad08");
 
       //Get geocode
@@ -174,11 +169,11 @@
           console.log(result.address); //Log user address for test
 
           //TODO: Append user country to welcome message
-          document.getElementById("country").innerHTML = "Your country is " +
-            result.address.countryFlag + " " + result.address.countryCode;
+          document.getElementById("country").innerHTML = "Have a great year in " +
+             result.address.country + " " + result.address.countryFlag + "!";
         }
       });
-    </script>   
+	</script>
 
 
 </body>

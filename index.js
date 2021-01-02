@@ -6,6 +6,7 @@ import * as firebase from "firebase/app";
 // Add the Firebase products that you want to use
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/database";
 
 import * as firebaseui from "firebaseui";
 
@@ -24,11 +25,14 @@ const mybook = document.getElementById("mybook");
 const numberAttending = document.getElementById("number-attending");
 const rsvpYes = document.getElementById("rsvp-yes");
 const rsvpNo = document.getElementById("rsvp-no");
+const welcomeUsername = document.getElementById("welcome-username");
+
 
 const currentuser = "";
 
 var rsvpListener = null; //listen to events based upon the variable (based upon id name)
 var guestbookListener = null;
+var acheivementButtonPressed = false;
 
 async function main() {  
   // Add Firebase project configuration object here
@@ -51,9 +55,9 @@ async function main() {
   } catch (e) {
     console.log(e);
     document.getElementById("app").innerHTML =
-      "<h1>Welcome to the Codelab! Add your Firebase config object to <pre>/index.js</pre> and refresh to get started</h1>";
+      "<h1>Error with firebase config</h1>";
     throw new Error(
-      "Welcome to the Codelab! Add your Firebase config object from the Firebase Console to `/index.js` and refresh to get started"
+      "Error with firebase config"
     );
   }
 
@@ -92,10 +96,13 @@ async function main() {
       // currentuser = user;
       startRsvpButton.textContent = "LOGOUT";
       // Show guestbook to logged-in users
-      guestbookContainer.style.display = "flex";
+      guestbookContainer.style.display = "block";
       descriptionContainer.style.display = "block";
       subscribeGuestbook();
       subscribeCurrentRSVP(user);
+
+      //Display username in welcome message
+      welcomeUsername.innerHTML = firebase.auth().currentUser.displayName;
     } else {
       startRsvpButton.textContent = "Join";
       // Hide guestbook for non-logged-in users
@@ -171,7 +178,7 @@ async function main() {
 }
 main();
 
-// Listen to guestbook updates
+// Listen to guestbook (Global Resolutions) updates
 function subscribeGuestbook() {
   // Create query for messages
   guestbookListener = firebase
@@ -287,5 +294,26 @@ function unsubscribeCurrentRSVP() {
   rsvpYes.className = "";
   rsvpNo.className = "";
 }
+
+
+function readAcheivementButton(){
+  acheivementButtonPressed = firebase.database().ref('ledStates/Monday');
+  acheivementButtonPressed.on('value', (snapshot) => {
+  const data = snapshot.val();
+  console.log(data);
+});
+
+}
+
+readAcheivementButton();
+
+
+
+
+/*
+   firebase.database().ref('ledStates/' + "Monday").set({
+    acheivement: state
+    
+  });*/
 
 
